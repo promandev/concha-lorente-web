@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const obras = await getCollection('obras');
   return obras.map((obra) => ({
-    params: { slug: obra.id },
+    params: { slug: obra.id.replace(/\.md$/, '') },
     props: { obra },
   }));
 }
@@ -65,8 +65,8 @@ const next = currentIndex < obrasOrdenadas.length - 1 ? obrasOrdenadas[currentIn
           </div>
         )}
         <nav class="obra-nav" aria-label="Navegación entre obras">
-          {prev && <a href={`/obra/${prev.id}`} class="obra-nav-link">← {prev.data.titulo}</a>}
-          {next && <a href={`/obra/${next.id}`} class="obra-nav-link obra-nav-next">{next.data.titulo} →</a>}
+          {prev && <a href={`/obra/${prev.id.replace(/\.md$/, '')}`} class="obra-nav-link">← {prev.data.titulo}</a>}
+          {next && <a href={`/obra/${next.id.replace(/\.md$/, '')}`} class="obra-nav-link obra-nav-next">{next.data.titulo} →</a>}
         </nav>
       </div>
     </div>

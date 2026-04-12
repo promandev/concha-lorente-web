@@ -29,7 +29,7 @@ const destacadas = obrasOrdenadas.slice(0, 6);
       <div class="gallery-grid">
         {destacadas.map((obra) => (
           <article class="obra-card">
-            <a href={`/obra/${obra.id}`}>
+            <a href={`/obra/${obra.id.replace(/\.md$/, '')}`}>
               <div class="obra-card-image">
                 <img src={obra.data.imagen} alt={obra.data.titulo} loading="lazy" />
               </div>

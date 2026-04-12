@@ -43,7 +43,7 @@ const slugToCategoria: Record<string, string> = {
         )?.[0] ?? '';
         return (
           <article class="obra-card" data-categoria={categoriaSlug}>
-            <a href={`/obra/${obra.id}`}>
+            <a href={`/obra/${obra.id.replace(/\.md$/, '')}`}>
               <div class="obra-card-image">
                 <img src={obra.data.imagen} alt={obra.data.titulo} loading="lazy" />
               </div>
