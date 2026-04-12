@@ -1,0 +1,234 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const obras = await getCollection('obras');
+  return obras.map((obra) => ({
+    params: { slug: obra.id },
+    props: { obra },
+  }));
+}
+
+const { obra } = Astro.props;
+const { titulo, tecnica, dimensiones, fecha, categoria, imagen, destacada } = obra.data;
+
+const fechaFormateada = fecha.toLocaleDateString('es-ES', {
+  year: 'numeric',
+  month: 'long',
+});
+
+const categoriaSlug: Record<string, string> = {
+  'ESTRUCTURAS':       'estructuras',
+  'BOCETOS Y DIBUJOS': 'bocetos-y-dibujos',
+  'PRIMERAS ETAPAS':   'primeras-etapas',
+};
+
+const obras = await getCollection('obras');
+const obrasOrdenadas = obras.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+const currentIndex = obrasOrdenadas.findIndex((o) => o.id === obra.id);
+const prev = currentIndex > 0 ? obrasOrdenadas[currentIndex - 1] : null;
+const next = currentIndex < obrasOrdenadas.length - 1 ? obrasOrdenadas[currentIndex + 1] : null;
+---
+
+<Layout title={`${titulo} - Concha Lorente Pinturas`} description={`${titulo}. ${tecnica} (${dimensiones}). Obra de Concha Lorente.`}>
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <div class="breadcrumbs-inner">
+      <a href="/" class="breadcrumb-link">Inicio</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <a href="/obra" class="breadcrumb-link">Obra</a>
+      <span class="breadcrumb-sep" aria-hidden="true">›</span>
+      <span class="breadcrumb-current" aria-current="page">{titulo}</span>
+    </div>
+  </nav>
+
+  <article class="obra-detail">
+    <a href="/obra" class="back-link">← Volver a todas las obras</a>
+    <div class="obra-detail-inner">
+      <div class="obra-image-container">
+        <img src={imagen} alt={titulo} />
+      </div>
+      <div class="obra-info-panel">
+        <a href={`/obra?categoria=${categoriaSlug[categoria] ?? ''}`} class="obra-category-link">{categoria}</a>
+        <h1>{titulo}</h1>
+        <dl class="obra-meta">
+          <dt>Técnica</dt>
+          <dd>{tecnica}</dd>
+          <dt>Dimensiones</dt>
+          <dd>{dimensiones} cm</dd>
+          <dt>Fecha</dt>
+          <dd>{fechaFormateada}</dd>
+        </dl>
+        {destacada && (
+          <div class="obra-highlight">
+            <p>{destacada}</p>
+          </div>
+        )}
+        <nav class="obra-nav" aria-label="Navegación entre obras">
+          {prev && <a href={`/obra/${prev.id}`} class="obra-nav-link">← {prev.data.titulo}</a>}
+          {next && <a href={`/obra/${next.id}`} class="obra-nav-link obra-nav-next">{next.data.titulo} →</a>}
+        </nav>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .breadcrumbs {
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .breadcrumbs-inner {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0.75rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb-link {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    transition: color 0.2s;
+  }
+
+  .breadcrumb-link:hover {
+    color: var(--color-accent);
+  }
+
+  .breadcrumb-sep {
+    font-size: 0.8rem;
+    color: var(--color-border);
+  }
+
+  .breadcrumb-current {
+    font-size: 0.8rem;
+    color: var(--color-text);
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 260px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    color: var(--color-text-light);
+    margin-bottom: 1.5rem;
+    transition: color 0.2s;
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .obra-detail {
+    padding: 2rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+  }
+
+  .obra-detail-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .obra-image-container {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .obra-image-container img {
+    width: 100%;
+    height: auto;
+  }
+
+  .obra-info-panel {
+    padding-top: 1rem;
+  }
+
+  .obra-category-link {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-accent);
+    font-weight: 500;
+  }
+
+  .obra-info-panel h1 {
+    font-size: 2.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .obra-meta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .obra-meta dt {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+    font-weight: 500;
+  }
+
+  .obra-meta dd {
+    font-size: 0.95rem;
+  }
+
+  .obra-highlight {
+    background: #ecf5e8;
+    padding: 1.25rem 1.5rem;
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    margin-bottom: 2rem;
+  }
+
+  .obra-highlight p {
+    font-size: 0.9rem;
+    font-style: italic;
+    color: var(--color-text-light);
+  }
+
+  .obra-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .obra-nav-link {
+    font-size: 0.85rem;
+  }
+
+  .obra-nav-next {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  @media (max-width: 768px) {
+    .obra-detail-inner {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .obra-info-panel h1 {
+      font-size: 1.8rem;
+    }
+  }
+</style>

@@ -1,0 +1,231 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const obras = await getCollection('obras');
+const obrasOrdenadas = obras.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
+const destacadas = obrasOrdenadas.slice(0, 6);
+---
+
+<Layout title="Concha Lorente - Pinturas">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Concha Lorente</h1>
+      <p class="hero-subtitle">Pinturas</p>
+      <blockquote class="hero-quote">
+        "La sintetización geométrica de sus formas junto con la tonalidad que emplea, da como resultado armonía y poética en la composición. Con lo que la obra de Concha Lorente se convierte en una sutil y bella abstracción".
+        <cite>— D. Antonio Granados Valdés, miembro de la Asociación de Críticos de Arte Madrileña, Española e Internacional</cite>
+      </blockquote>
+      <a href="/obra" class="cta-button">Ver obra completa</a>
+    </div>
+  </section>
+
+  <!-- OBRAS DESTACADAS -->
+  <section class="featured-section">
+    <div class="container">
+      <h2 class="section-title">Obra reciente</h2>
+      <p class="section-subtitle">Selección de las últimas creaciones</p>
+      <div class="gallery-grid">
+        {destacadas.map((obra) => (
+          <article class="obra-card">
+            <a href={`/obra/${obra.id}`}>
+              <div class="obra-card-image">
+                <img src={obra.data.imagen} alt={obra.data.titulo} loading="lazy" />
+              </div>
+              <div class="obra-card-info">
+                <h3 class="obra-card-title">{obra.data.titulo}</h3>
+                <p class="obra-card-technique">{obra.data.tecnica} ({obra.data.dimensiones})</p>
+                <span class="obra-card-category">{obra.data.categoria}</span>
+              </div>
+            </a>
+          </article>
+        ))}
+      </div>
+      <div class="section-cta">
+        <a href="/obra" class="cta-button cta-secondary">Ver todas las obras</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOBRE LA ARTISTA -->
+  <section class="about-preview">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>Sobre la artista</h2>
+          <p>Pintora nacida en Madrid. Miembro de la Asociación Española de Pintores y Escultores.</p>
+          <p>Su obra se caracteriza por la sintetización geométrica, el uso de técnica mixta y una paleta tonal que combina armonía y poética en cada composición.</p>
+          <a href="/sobre-mi" class="text-link">Conocer más →</a>
+        </div>
+        <div class="about-image">
+          <img src={obrasOrdenadas[2]?.data.imagen} alt="Obra de Concha Lorente" loading="lazy" />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(180deg, #e8f2e4 0%, var(--color-bg) 100%);
+  }
+
+  .hero-content {
+    max-width: 700px;
+  }
+
+  .hero h1 {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    animation: fadeInUp 0.9s ease both;
+    animation-delay: 0.05s;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    color: var(--color-text-light);
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.9s ease both;
+    animation-delay: 0.22s;
+  }
+
+  .hero-quote {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.8;
+    border: none;
+    padding: 0;
+    margin-bottom: 2.5rem;
+    animation: fadeInUp 0.9s ease both;
+    animation-delay: 0.4s;
+  }
+
+  .hero-quote cite {
+    display: block;
+    font-size: 0.8rem;
+    font-style: normal;
+    color: var(--color-text-light);
+    margin-top: 1rem;
+    font-family: var(--font-body);
+  }
+
+  .cta-button {
+    display: inline-block;
+    padding: 0.85rem 2.5rem;
+    background: var(--color-text);
+    color: var(--color-white);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: 2px solid var(--color-text);
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    animation: fadeInUp 0.9s ease both;
+    animation-delay: 0.6s;
+  }
+
+  .cta-button:hover {
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .cta-secondary {
+    background: transparent;
+    color: var(--color-text);
+  }
+
+  .cta-secondary:hover {
+    background: var(--color-text);
+    color: var(--color-white);
+  }
+
+  .featured-section {
+    padding: 5rem 0;
+  }
+
+  .section-cta {
+    text-align: center;
+    margin-top: 3rem;
+  }
+
+  .about-preview {
+    padding: 5rem 0;
+    background: var(--color-white);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-text h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-text p {
+    color: var(--color-text-light);
+    margin-bottom: 1rem;
+    font-size: 1.05rem;
+  }
+
+  .text-link {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
+
+  .about-image {
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    background: #e5f0e0;
+    border-radius: var(--radius-md);
+  }
+
+  .about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .about-image:hover img {
+    transform: scale(1.04);
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 {
+      font-size: 2.5rem;
+    }
+
+    .hero-quote {
+      font-size: 1rem;
+    }
+
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .about-text h2 {
+      font-size: 1.8rem;
+    }
+  }
+</style>

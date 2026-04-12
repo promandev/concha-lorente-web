@@ -1,0 +1,516 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Pinturas de Concha Lorente. Técnica mixta, acrílico y óleo. Pintora nacida en Madrid, miembro de la Asociación Española de Pintores y Escultores.' } = Astro.props;
+const currentPath = Astro.url.pathname;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="/" class="logo">
+          <span class="logo-name">Concha Lorente</span>
+          <span class="logo-subtitle">Pinturas</span>
+        </a>
+        <nav class="main-nav" aria-label="Navegación principal">
+          <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Abrir menú">
+            <span></span><span></span><span></span>
+          </button>
+          <ul id="nav-menu" class="nav-list">
+            <li><a href="/" class:list={[{ active: currentPath === '/' }]}>Inicio</a></li>
+            <li><a href="/obra" class:list={[{ active: currentPath.startsWith('/obra') }]}>Obra</a></li>
+            <li><a href="/sobre-mi" class:list={[{ active: currentPath === '/sobre-mi/' }]}>Sobre mí</a></li>
+            <li><a href="/exposiciones" class:list={[{ active: currentPath === '/exposiciones/' }]}>Exposiciones</a></li>
+            <li><a href="/contacto" class:list={[{ active: currentPath === '/contacto/' }]}>Contacto</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <p>&copy; {new Date().getFullYear()} Concha Lorente. Todos los derechos reservados.</p>
+        <p class="footer-links">
+          <a href="http://conchalorente.artelista.com" target="_blank" rel="noopener noreferrer">Tienda en Artelista</a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      // Mobile nav toggle
+      const toggle = document.querySelector('.nav-toggle');
+      const menu = document.getElementById('nav-menu');
+      if (toggle && menu) {
+        toggle.addEventListener('click', () => {
+          const expanded = toggle.getAttribute('aria-expanded') === 'true';
+          toggle.setAttribute('aria-expanded', String(!expanded));
+          menu.classList.toggle('open');
+        });
+      }
+
+      // Scroll reveal
+      document.body.classList.add('js-ready');
+      const revealObserver = new IntersectionObserver(
+        (entries) =>
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+              revealObserver.unobserve(entry.target);
+            }
+          }),
+        { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
+      );
+      document
+        .querySelectorAll(
+          '.obra-card, .section-title, .section-subtitle, .bio-section, .expo-item, .about-text, .about-image'
+        )
+        .forEach((el) => {
+          if (el.classList.contains('obra-card')) {
+            const siblings = Array.from(el.parentElement?.children ?? []);
+            const idx = siblings.indexOf(el);
+            (el as HTMLElement).style.transitionDelay = `${(idx % 3) * 0.12}s`;
+          }
+          revealObserver.observe(el);
+        });
+    </script>
+
+    <style is:global>
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --color-bg: #f3f7f0;
+        --color-text: #1c2b1c;
+        --color-text-light: #5b6b52;
+        --color-accent: #517a3e;
+        --color-accent-hover: #3c5e2c;
+        --color-border: #cfe0c8;
+        --color-white: #ffffff;
+        --font-heading: 'Cormorant Garamond', Georgia, serif;
+        --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        --max-width: 1200px;
+        --header-height: 80px;
+        --radius-sm: 8px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: var(--font-body);
+        font-weight: 300;
+        color: var(--color-text);
+        background-color: var(--color-bg);
+        line-height: 1.7;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-size: 16px;
+      }
+
+      main {
+        flex: 1;
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      a {
+        color: var(--color-accent);
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      a:hover {
+        color: var(--color-accent-hover);
+      }
+
+      h1, h2, h3, h4 {
+        font-family: var(--font-heading);
+        font-weight: 400;
+        line-height: 1.3;
+      }
+
+      /* HEADER */
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: var(--color-white);
+        border-bottom: 1px solid var(--color-border);
+        height: var(--header-height);
+        display: flex;
+        align-items: center;
+      }
+
+      .header-inner {
+        max-width: var(--max-width);
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        gap: 0;
+      }
+
+      .logo-name {
+        font-family: var(--font-heading);
+        font-size: 1.5rem;
+        font-weight: 400;
+        color: var(--color-text);
+        letter-spacing: 0.05em;
+        line-height: 1.2;
+      }
+
+      .logo-subtitle {
+        font-family: var(--font-body);
+        font-size: 0.7rem;
+        font-weight: 300;
+        color: var(--color-text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.3em;
+      }
+
+      .nav-list {
+        list-style: none;
+        display: flex;
+        gap: 2rem;
+      }
+
+      .nav-list a {
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: var(--color-text-light);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        padding: 0.25rem 0;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+      }
+
+      .nav-list a:hover,
+      .nav-list a.active {
+        color: var(--color-text);
+        border-bottom-color: var(--color-accent);
+      }
+
+      .nav-toggle {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0.5rem;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .nav-toggle span {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background: var(--color-text);
+        transition: all 0.3s ease;
+      }
+
+      @media (max-width: 768px) {
+        .nav-toggle {
+          display: flex;
+        }
+
+        .nav-list {
+          display: none;
+          position: absolute;
+          top: var(--header-height);
+          left: 0;
+          right: 0;
+          background: var(--color-white);
+          flex-direction: column;
+          padding: 1.5rem 2rem;
+          gap: 1rem;
+          border-bottom: 1px solid var(--color-border);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        border-radius: 0 0 var(--radius-md) var(--radius-md);
+        }
+
+        .nav-list.open {
+          display: flex;
+        }
+      }
+
+      /* FOOTER */
+      .site-footer {
+        border-top: 1px solid var(--color-border);
+        padding: 2rem;
+        text-align: center;
+        margin-top: 4rem;
+      }
+
+      .footer-inner {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        font-size: 0.8rem;
+        color: var(--color-text-light);
+      }
+
+      .footer-links {
+        margin-top: 0.5rem;
+      }
+
+      .footer-links a {
+        font-size: 0.8rem;
+      }
+
+      /* UTILITIES */
+      .container {
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+
+      .section-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        color: var(--color-text-light);
+        font-size: 0.95rem;
+        margin-bottom: 3rem;
+      }
+
+      /* GALLERY GRID */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2rem;
+      }
+
+      @media (max-width: 640px) {
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* CARD */
+      .obra-card {
+        background: var(--color-white);
+        border-radius: var(--radius-md);
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid var(--color-border);
+      }
+
+      .obra-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+      }
+
+      .obra-card a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .obra-card-image {
+        aspect-ratio: 4/3;
+        overflow: hidden;
+        background-color: #e5f0e0;
+      }
+
+      .obra-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+      }
+
+      .obra-card:hover .obra-card-image img {
+        transform: scale(1.03);
+      }
+
+      .obra-card-info {
+        padding: 1.25rem;
+      }
+
+      .obra-card-title {
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        font-weight: 400;
+        margin-bottom: 0.3rem;
+      }
+
+      .obra-card-technique {
+        font-size: 0.8rem;
+        color: var(--color-text-light);
+      }
+
+      .obra-card-category {
+        display: inline-block;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-accent);
+        margin-top: 0.5rem;
+        font-weight: 500;
+      }
+
+      /* CATEGORY FILTER */
+      .category-filter {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+      }
+
+      .category-filter a {
+        padding: 0.5rem 1.25rem;
+        border: 1px solid var(--color-border);
+        border-radius: 100px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--color-text-light);
+        transition: all 0.2s ease;
+      }
+
+      .category-filter a:hover,
+      .category-filter a.active {
+        background: var(--color-text);
+        color: var(--color-white);
+        border-color: var(--color-text);
+      }
+
+      /* PAGE HERO */
+      .page-hero {
+        padding: 4rem 2rem 3rem;
+        text-align: center;
+        max-width: var(--max-width);
+        margin: 0 auto;
+      }
+
+      .page-hero h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-hero p {
+        color: var(--color-text-light);
+        max-width: 600px;
+        margin: 0 auto;
+        font-size: 1.05rem;
+      }
+
+      @media (max-width: 768px) {
+        .page-hero h1 {
+          font-size: 2rem;
+        }
+
+        .section-title {
+          font-size: 1.8rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 0 1rem;
+        }
+
+        .header-inner {
+          padding: 0 1rem;
+        }
+
+        .gallery-grid {
+          gap: 1rem;
+        }
+      }
+
+      /* ── Animations ── */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(22px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+
+      /* ── Scroll reveal ── */
+      body.js-ready .obra-card,
+      body.js-ready .section-title,
+      body.js-ready .section-subtitle,
+      body.js-ready .bio-section,
+      body.js-ready .expo-item,
+      body.js-ready .about-text,
+      body.js-ready .about-image {
+        opacity: 0;
+        transform: translateY(24px);
+        transition: opacity 0.65s ease, transform 0.65s ease;
+      }
+
+      body.js-ready .obra-card {
+        transition: opacity 0.65s ease, transform 0.65s ease, box-shadow 0.3s ease;
+      }
+
+      body.js-ready .obra-card.revealed,
+      body.js-ready .section-title.revealed,
+      body.js-ready .section-subtitle.revealed,
+      body.js-ready .bio-section.revealed,
+      body.js-ready .expo-item.revealed,
+      body.js-ready .about-text.revealed,
+      body.js-ready .about-image.revealed {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* After scroll-in, restore fast hover transitions on cards */
+      body.js-ready .obra-card.revealed {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+    </style>
+  </body>
+</html>

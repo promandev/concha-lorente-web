@@ -1,0 +1,116 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const exposiciones = [
+  { lugar: "Ateneo Científico, Literario y Artístico de Alicante", direccion: "C/ Navas, 32, Alicante", fecha: "Noviembre 2017" },
+  { lugar: "Galería Eka & Moor", direccion: "C/ Bretón de los Herreros, 56, Madrid", fecha: "Septiembre 2017" },
+  { lugar: "La Ciudad Invisible (café-librería de viajes)", direccion: "C/ Costanilla de los Ángeles, 7, Madrid", fecha: "Marzo 2016" },
+  { lugar: "El Café Sin Nombre", direccion: "C/ Conde Duque, 9, Madrid", fecha: "Diciembre 2014 – Enero 2015" },
+  { lugar: "Bar La Sucursal", direccion: "C/ La Pista, 5, Mieres, Asturias", fecha: "Diciembre 2014" },
+  { lugar: "Everyday Bar", direccion: "C/ Augusto Figueroa, 6, Madrid", fecha: "Julio – Agosto 2014" },
+  { lugar: "Nuevo Agustinache Bar", direccion: "C/ Príncipe de Vergara, 128, Madrid", fecha: "Marzo 2014", youtube: "https://www.youtube.com/watch?v=vL6erMmPG4M" },
+  { lugar: "Bar La Sucursal", direccion: "C/ La Pista, 5, Mieres, Asturias", fecha: "Julio – Agosto 2013" },
+  { lugar: "Museo Municipal de Valdepeñas", direccion: "Ciudad Real", fecha: "Junio 2013", nota: "VII Salón de Primavera por Tierras de Castilla-La Mancha" },
+  { lugar: "Nuevo Agustinache Bar", direccion: "C/ Príncipe de Vergara, 128, Madrid", fecha: "Enero 2013" },
+  { lugar: "Hotel Eurobuilding 2", direccion: "C/ Orense, 69, Madrid", fecha: "Diciembre 2011" },
+  { lugar: "Casa de Cantabria", direccion: "Madrid", fecha: "Septiembre 2011", nota: "IV Certamen de Artes Plásticas de la Asociación Española de Pintores y Escultores" },
+  { lugar: "Casa de Cantabria", direccion: "Madrid", fecha: "Julio 2010" },
+  { lugar: "Sala de Exposiciones La Lonja, C.C. Casa del Reloj", direccion: "Madrid", fecha: "Junio 2010", nota: "Certamen de Artes Plásticas Centenario de la Gran Vía" },
+  { lugar: "Museo Municipal de Valdepeñas", direccion: "Ciudad Real", fecha: "Mayo 2010", nota: "V Salón de Primavera por Tierras de Castilla-La Mancha" },
+  { lugar: "Sala de Exposiciones C.C. Nicolás Salmerón", direccion: "Madrid", fecha: "Mayo 2010", nota: "XLVII Certamen de Artes Plásticas de San Isidro" },
+  { lugar: "Sala de Exposiciones del Distrito de Retiro", direccion: "Madrid", fecha: "Abril 2010" },
+  { lugar: "Sala de Exposiciones La Paloma", direccion: "Madrid", fecha: "Marzo 2010" },
+  { lugar: "Sala de Exposiciones C.C. Nicolás Salmerón", direccion: "Madrid", fecha: "Diciembre 2009", nota: "XXVIII Certamen de Artes Plásticas Pequeño Formato" },
+  { lugar: "Hotel Eurobuilding 2", direccion: "Madrid", fecha: "Junio y Diciembre 2009" },
+  { lugar: "Sala de Arquería de Nuevos Ministerios", direccion: "Madrid", fecha: "2000 – 2008", nota: "Exposiciones en 2000, 2001, 2002, 2004, 2005 y 2008" },
+  { lugar: "Sala de Exposiciones C.C. Nicolás Salmerón", direccion: "Madrid", fecha: "1997 – 2000", nota: "Exposiciones en 1997, 1998, 1999 y 2000" },
+];
+---
+
+<Layout title="Exposiciones - Concha Lorente Pinturas" description="Historial de exposiciones de Concha Lorente en galerías, museos y salas de arte en España.">
+  <div class="page-hero">
+    <h1>Exposiciones</h1>
+    <p>Historial completo de exposiciones individuales y colectivas</p>
+  </div>
+
+  <div class="container">
+    <div class="expo-list">
+      {exposiciones.map((expo) => (
+        <article class="expo-item">
+          <div class="expo-fecha">{expo.fecha}</div>
+          <div class="expo-details">
+            <h3>{expo.lugar}</h3>
+            <p class="expo-dir">{expo.direccion}</p>
+            {expo.nota && <p class="expo-nota">{expo.nota}</p>}
+            {expo.youtube && (
+              <a href={expo.youtube} target="_blank" rel="noopener noreferrer" class="expo-youtube">
+                Ver exposición en YouTube →
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .expo-list {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-bottom: 4rem;
+  }
+
+  .expo-item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 2rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .expo-fecha {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--color-accent);
+    padding-top: 0.15rem;
+  }
+
+  .expo-details h3 {
+    font-size: 1.15rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .expo-dir {
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+  }
+
+  .expo-nota {
+    font-size: 0.8rem;
+    font-style: italic;
+    color: var(--color-accent);
+    margin-top: 0.35rem;
+  }
+
+  .expo-youtube {
+    display: inline-block;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    color: var(--color-accent);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: color 0.2s;
+  }
+
+  .expo-youtube:hover {
+    color: var(--color-accent-hover);
+  }
+
+  @media (max-width: 640px) {
+    .expo-item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+  }
+</style>
