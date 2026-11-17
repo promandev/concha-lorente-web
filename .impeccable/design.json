@@ -1,0 +1,359 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-17T12:00:00Z",
+  "title": "Design System: Concha Lorente - Pinturas",
+  "extensions": {
+    "colorMeta": {
+      "olive": {
+        "role": "primary",
+        "displayName": "Olive",
+        "canonical": "oklch(53.4% 0.099 137)",
+        "tonalRamp": [
+          "oklch(15% 0.042 137)",
+          "oklch(26% 0.058 137)",
+          "oklch(37% 0.074 137)",
+          "oklch(48% 0.089 137)",
+          "oklch(59% 0.094 137)",
+          "oklch(70% 0.078 137)",
+          "oklch(82% 0.061 137)",
+          "oklch(95% 0.042 137)"
+        ]
+      },
+      "olive-deep": {
+        "role": "primary",
+        "displayName": "Deep Olive",
+        "canonical": "oklch(44.3% 0.086 137)",
+        "tonalRamp": [
+          "oklch(15% 0.036 137)",
+          "oklch(26% 0.050 137)",
+          "oklch(37% 0.064 137)",
+          "oklch(48% 0.077 137)",
+          "oklch(59% 0.081 137)",
+          "oklch(70% 0.067 137)",
+          "oklch(82% 0.053 137)",
+          "oklch(95% 0.036 137)"
+        ]
+      },
+      "forest-ink": {
+        "role": "neutral",
+        "displayName": "Forest Ink",
+        "canonical": "oklch(27.0% 0.034 145)",
+        "tonalRamp": [
+          "oklch(15% 0.014 145)",
+          "oklch(26% 0.020 145)",
+          "oklch(37% 0.025 145)",
+          "oklch(48% 0.031 145)",
+          "oklch(59% 0.032 145)",
+          "oklch(70% 0.027 145)",
+          "oklch(82% 0.021 145)",
+          "oklch(95% 0.014 145)"
+        ]
+      },
+      "moss-grey": {
+        "role": "neutral",
+        "displayName": "Moss Grey",
+        "canonical": "oklch(50.7% 0.043 134)",
+        "tonalRamp": [
+          "oklch(15% 0.018 134)",
+          "oklch(26% 0.025 134)",
+          "oklch(37% 0.032 134)",
+          "oklch(48% 0.039 134)",
+          "oklch(59% 0.041 134)",
+          "oklch(70% 0.034 134)",
+          "oklch(82% 0.026 134)",
+          "oklch(95% 0.018 134)"
+        ]
+      },
+      "sage-paper": {
+        "role": "neutral",
+        "displayName": "Sage Paper",
+        "canonical": "oklch(97.1% 0.010 131)",
+        "tonalRamp": [
+          "oklch(15% 0.005 131)",
+          "oklch(26% 0.007 131)",
+          "oklch(37% 0.009 131)",
+          "oklch(48% 0.011 131)",
+          "oklch(59% 0.011 131)",
+          "oklch(70% 0.009 131)",
+          "oklch(82% 0.007 131)",
+          "oklch(95% 0.005 131)"
+        ]
+      },
+      "sage-line": {
+        "role": "neutral",
+        "displayName": "Sage Line",
+        "canonical": "oklch(88.7% 0.037 136)",
+        "tonalRamp": [
+          "oklch(15% 0.016 136)",
+          "oklch(26% 0.022 136)",
+          "oklch(37% 0.027 136)",
+          "oklch(48% 0.033 136)",
+          "oklch(59% 0.035 136)",
+          "oklch(70% 0.029 136)",
+          "oklch(82% 0.023 136)",
+          "oklch(95% 0.016 136)"
+        ]
+      },
+      "sage-mist": {
+        "role": "neutral",
+        "displayName": "Sage Mist",
+        "canonical": "oklch(94.3% 0.024 136)",
+        "tonalRamp": [
+          "oklch(15% 0.010 136)",
+          "oklch(26% 0.014 136)",
+          "oklch(37% 0.018 136)",
+          "oklch(48% 0.022 136)",
+          "oklch(59% 0.023 136)",
+          "oklch(70% 0.019 136)",
+          "oklch(82% 0.015 136)",
+          "oklch(95% 0.010 136)"
+        ]
+      },
+      "wall-white": {
+        "role": "neutral",
+        "displayName": "Wall White",
+        "canonical": "oklch(100% 0 0)",
+        "tonalRamp": [
+          "oklch(15% 0 0)",
+          "oklch(26% 0 0)",
+          "oklch(37% 0 0)",
+          "oklch(48% 0 0)",
+          "oklch(59% 0 0)",
+          "oklch(70% 0 0)",
+          "oklch(82% 0 0)",
+          "oklch(95% 0 0)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The artist's name on the home hero, a compact line above the painting."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page-hero titles."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Section titles, about heading, artwork name on detail page."
+      },
+      "title-sm": {
+        "displayName": "Title Small",
+        "purpose": "Artwork names on cards."
+      },
+      "quote": {
+        "displayName": "Quote",
+        "purpose": "The critic's quote on the home hero, a small supporting line below the painting; text never changes."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text, weight 300 site-wide."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Page-hero intros, bio and about paragraphs."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Uppercase main navigation; buttons and chips at 0.8rem."
+      },
+      "label-sm": {
+        "displayName": "Label Small",
+        "purpose": "Uppercase category tags and metadata terms."
+      }
+    },
+    "shadows": [
+      {
+        "name": "hover-lift",
+        "value": "0 20px 50px rgba(0,0,0,0.1)",
+        "purpose": "Artwork cards on hover, paired with translateY(-6px)."
+      },
+      {
+        "name": "menu-drop",
+        "value": "0 8px 24px rgba(0,0,0,0.08)",
+        "purpose": "Mobile navigation dropdown panel."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-standard",
+        "value": "ease",
+        "purpose": "The only easing curve in use."
+      },
+      {
+        "name": "duration-link",
+        "value": "0.2s",
+        "purpose": "Link and navigation colour transitions."
+      },
+      {
+        "name": "duration-control",
+        "value": "0.3s",
+        "purpose": "Buttons, card lift, mobile toggle bars."
+      },
+      {
+        "name": "duration-image-zoom",
+        "value": "0.5s",
+        "purpose": "Card image scale(1.03) on hover (0.6s on the home about-image)."
+      },
+      {
+        "name": "duration-reveal",
+        "value": "0.65s",
+        "purpose": "Scroll reveal: fade up 24px; cards staggered 0.12s per column."
+      },
+      {
+        "name": "duration-hero",
+        "value": "0.9s",
+        "purpose": "Home hero fadeInUp sequence: name, subtitle, painting, quote, button; delays 0.05s / 0.22s / 0.4s / 0.6s / 0.75s."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "xs",
+        "value": "480px"
+      },
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main call to action (e.g. 'Ver obra completa'); forest-ink pill that inverts on hover.",
+      "html": "<a class=\"ds-btn-primary\" href=\"#\">Ver obra completa</a>",
+      "css": ".ds-btn-primary { display: inline-block; padding: 0.85rem 2.5rem; background: var(--color-text, #1c2b1c); color: var(--color-white, #ffffff); font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border: 2px solid var(--color-text, #1c2b1c); border-radius: 100px; transition: all 0.3s ease; } .ds-btn-primary:hover { background: transparent; color: var(--color-text, #1c2b1c); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Ghost pill (e.g. 'Ver todas las obras'); fills with forest ink on hover.",
+      "html": "<a class=\"ds-btn-secondary\" href=\"#\">Ver todas las obras</a>",
+      "css": ".ds-btn-secondary { display: inline-block; padding: 0.85rem 2.5rem; background: transparent; color: var(--color-text, #1c2b1c); font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border: 2px solid var(--color-text, #1c2b1c); border-radius: 100px; transition: all 0.3s ease; } .ds-btn-secondary:hover { background: var(--color-text, #1c2b1c); color: var(--color-white, #ffffff); }"
+    },
+    {
+      "name": "Category Filter",
+      "kind": "chip",
+      "refersTo": "chip-filter",
+      "description": "Pill filters above the gallery; active state inverts to forest ink.",
+      "html": "<nav class=\"ds-filter\"><a href=\"#\" class=\"ds-chip is-active\">Todas</a><a href=\"#\" class=\"ds-chip\">Estructuras</a><a href=\"#\" class=\"ds-chip\">Bocetos y dibujos</a><a href=\"#\" class=\"ds-chip\">Primeras etapas</a></nav>",
+      "css": ".ds-filter { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; } .ds-chip { padding: 0.5rem 1.25rem; border: 1px solid var(--color-border, #cfe0c8); border-radius: 100px; font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-light, #5b6b52); text-decoration: none; transition: all 0.2s ease; } .ds-chip:hover, .ds-chip.is-active { background: var(--color-text, #1c2b1c); color: var(--color-white, #ffffff); border-color: var(--color-text, #1c2b1c); }"
+    },
+    {
+      "name": "Artwork Card",
+      "kind": "card",
+      "refersTo": "card-obra",
+      "description": "Framed artwork in the gallery grid: 4:3 image on a sage mat, cartela caption, lift on hover.",
+      "html": "<article class=\"ds-card\"><a href=\"#\"><div class=\"ds-card-image\"></div><div class=\"ds-card-info\"><h3 class=\"ds-card-title\">Cudillero</h3><p class=\"ds-card-tech\">Técnica mixta sobre lienzo (81x60)</p><span class=\"ds-card-cat\">ESTRUCTURAS</span></div></a></article>",
+      "css": ".ds-card { width: 300px; background: var(--color-white, #ffffff); border: 1px solid var(--color-border, #cfe0c8); border-radius: 16px; overflow: hidden; transition: transform 0.3s ease, box-shadow 0.3s ease; } .ds-card a { color: inherit; text-decoration: none; } .ds-card:hover { transform: translateY(-6px); box-shadow: 0 20px 50px rgba(0,0,0,0.1); } .ds-card-image { aspect-ratio: 4/3; background: #e5f0e0; } .ds-card-info { padding: 1.25rem; } .ds-card-title { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 1.3rem; font-weight: 400; line-height: 1.3; margin: 0 0 0.3rem; color: var(--color-text, #1c2b1c); } .ds-card-tech { font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; color: var(--color-text-light, #5b6b52); margin: 0; } .ds-card-cat { display: inline-block; margin-top: 0.5rem; font-family: var(--font-body, Inter, sans-serif); font-size: 0.65rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-accent, #517a3e); }"
+    },
+    {
+      "name": "Main Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky white header: serif logo with tracked subtitle, uppercase links with olive underline on hover/current.",
+      "html": "<header class=\"ds-header\"><a href=\"#\" class=\"ds-logo\"><span class=\"ds-logo-name\">Concha Lorente</span><span class=\"ds-logo-sub\">Pinturas</span></a><ul class=\"ds-nav\"><li><a href=\"#\" class=\"is-active\">Inicio</a></li><li><a href=\"#\">Obra</a></li><li><a href=\"#\">Sobre mí</a></li><li><a href=\"#\">Exposiciones</a></li><li><a href=\"#\">Contacto</a></li></ul></header>",
+      "css": ".ds-header { height: 80px; display: flex; align-items: center; justify-content: space-between; padding: 0 2rem; background: var(--color-white, #ffffff); border-bottom: 1px solid var(--color-border, #cfe0c8); } .ds-logo { display: flex; flex-direction: column; text-decoration: none; } .ds-logo-name { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 1.5rem; font-weight: 400; letter-spacing: 0.05em; line-height: 1.2; color: var(--color-text, #1c2b1c); } .ds-logo-sub { font-family: var(--font-body, Inter, sans-serif); font-size: 0.7rem; font-weight: 300; text-transform: uppercase; letter-spacing: 0.3em; color: var(--color-text-light, #5b6b52); } .ds-nav { list-style: none; display: flex; gap: 2rem; margin: 0; padding: 0; } .ds-nav a { font-family: var(--font-body, Inter, sans-serif); font-size: 0.85rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-text-light, #5b6b52); text-decoration: none; padding: 0.25rem 0; border-bottom: 2px solid transparent; transition: all 0.2s ease; } .ds-nav a:hover, .ds-nav a.is-active { color: var(--color-text, #1c2b1c); border-bottom-color: var(--color-accent, #517a3e); }"
+    },
+    {
+      "name": "Highlight Callout",
+      "kind": "custom",
+      "refersTo": "callout-highlight",
+      "description": "Award or selection note on an artwork detail page: Sage Mist panel with a 1px sage border, no accent stripe.",
+      "html": "<div class=\"ds-highlight\"><p>Seleccionada en el XLVII Certamen de Artes Plásticas de San Isidro.</p></div>",
+      "css": ".ds-highlight { max-width: 420px; background: #e5f0e0; padding: 1.25rem 1.5rem; border: 1px solid var(--color-border, #cfe0c8); border-radius: 8px; } .ds-highlight p { margin: 0; font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.9rem; font-style: italic; line-height: 1.7; color: var(--color-text-light, #5b6b52); }"
+    },
+    {
+      "name": "Exhibition Row",
+      "kind": "custom",
+      "refersTo": "expo-item",
+      "description": "Date/venue pair in the exhibition history, separated by sage hairlines.",
+      "html": "<article class=\"ds-expo\"><div class=\"ds-expo-date\">Septiembre 2017</div><div><h3 class=\"ds-expo-venue\">Galería Eka &amp; Moor</h3><p class=\"ds-expo-dir\">C/ Bretón de los Herreros, 56, Madrid</p><a href=\"#\" class=\"ds-expo-link\">Ver exposición en YouTube →</a></div></article>",
+      "css": ".ds-expo { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; padding: 1.5rem 0; border-bottom: 1px solid var(--color-border, #cfe0c8); max-width: 800px; } .ds-expo-date { font-family: var(--font-body, Inter, sans-serif); font-size: 0.85rem; font-weight: 500; color: var(--color-accent, #517a3e); padding-top: 0.15rem; } .ds-expo-venue { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 1.15rem; font-weight: 400; line-height: 1.3; margin: 0 0 0.25rem; color: var(--color-text, #1c2b1c); } .ds-expo-dir { margin: 0; font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.9rem; color: var(--color-text-light, #5b6b52); } .ds-expo-link { display: inline-block; margin-top: 0.5rem; font-family: var(--font-body, Inter, sans-serif); font-size: 0.8rem; color: var(--color-accent, #517a3e); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 1px; transition: color 0.2s ease; } .ds-expo-link:hover { color: var(--color-accent-hover, #3c5e2c); }"
+    },
+    {
+      "name": "Artwork Actions",
+      "kind": "custom",
+      "refersTo": "button-primary",
+      "description": "Enquiry and shop actions under the artwork metadata: primary mailto pill over a ghost pill.",
+      "html": "<div class=\"ds-actions\"><a class=\"ds-act-primary\" href=\"#\">Consultar esta obra</a><a class=\"ds-act-secondary\" href=\"#\">Ver en Artelista</a></div>",
+      "css": ".ds-actions { display: flex; flex-direction: column; gap: 0.75rem; max-width: 22rem; } .ds-act-primary, .ds-act-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0.85rem 2.5rem; font-family: var(--font-body, Inter, sans-serif); font-size: 0.8rem; font-weight: 400; text-transform: uppercase; letter-spacing: 0.15em; text-decoration: none; border: 2px solid var(--color-text, #1c2b1c); border-radius: 100px; transition: all 0.3s ease; } .ds-act-primary { background: var(--color-text, #1c2b1c); color: var(--color-white, #ffffff); } .ds-act-primary:hover { background: transparent; color: var(--color-text, #1c2b1c); } .ds-act-secondary { background: transparent; color: var(--color-text, #1c2b1c); } .ds-act-secondary:hover { background: var(--color-text, #1c2b1c); color: var(--color-white, #ffffff); }"
+    },
+    {
+      "name": "Hero Painting",
+      "kind": "custom",
+      "refersTo": "card-obra",
+      "description": "Home first view: the painting whole on a Sage Mist matte in a fixed-height frame, with a cartela.",
+      "html": "<figure class=\"ds-hero\"><div class=\"ds-hero-frame\"></div><figcaption class=\"ds-hero-cap\"><a href=\"#\" class=\"ds-hero-title\">Cudillero</a><span class=\"ds-hero-meta\">Técnica mixta sobre lienzo, 81×60 cm</span></figcaption></figure>",
+      "css": ".ds-hero { width: 100%; max-width: 640px; margin: 0; text-align: center; } .ds-hero-frame { height: 320px; background: #e5f0e0; border: 1px solid var(--color-border, #cfe0c8); border-radius: 16px; } .ds-hero-cap { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0.25rem 1rem; margin-top: 1rem; } .ds-hero-title { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 1.15rem; color: var(--color-text, #1c2b1c); text-decoration: none; } .ds-hero-meta { font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; color: var(--color-text-light, #5b6b52); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Gallery Wall",
+    "overview": "The site is the exhibition room, not an exhibit. Light walls with a whisper of sage, each painting hung with generous air around it, captions set small and spaced like the cartela beside a frame. Every interface element exists to hold the work at the right distance and then step back. Nothing in the chrome competes with the paintings for colour or attention; the only saturated hue anywhere is a muted olive used for wayfinding.\n\nThe mood is serene and luminous, classical and literary, natural and discreet. Cormorant Garamond carries the literary register (the critic's quote in italic, titles in light serif), while a light-weight Inter keeps information quiet. The palette is entirely derived from one green family, so the site reads as a single calm surface whose tints shift only to separate wall, frame and caption. Density is low: wide section padding, centred page heroes, narrow reading columns.\n\nThe one confirmed rejection: the site must never look like a blog template. No post-list chronology, no sidebar widgets, no Blogspot residue. Works are presented as a collection, not as a feed.",
+    "keyCharacteristics": [
+      "One green family for everything: sage paper, forest ink, moss captions, olive wayfinding.",
+      "Serif for voice (titles, quote), light sans for information (captions, metadata, navigation).",
+      "Small uppercase labels with wide tracking (0.1–0.4em) as the cartela voice.",
+      "Flat at rest; hairline sage borders define frames; lift appears only on hover.",
+      "Soft geometry: 16px frames, pill-shaped actions and filters.",
+      "Unhurried motion: content rises into place with a gentle fade."
+    ],
+    "rules": [
+      {
+        "name": "The Olive Whisper Rule",
+        "body": "Olive is wayfinding, not decoration. It appears as text or a 2px line, never as a background fill or a large area, so the paintings stay the only colour event on the page.",
+        "section": "colors"
+      },
+      {
+        "name": "The One Family Rule",
+        "body": "Every colour in the chrome comes from the sage/olive/forest family. A new hue, a pure grey or a saturated tint is a break in the wall.",
+        "section": "colors"
+      },
+      {
+        "name": "The Cartela Rule",
+        "body": "Information about a work (category, technique, dimensions, date) is set small, in sans, uppercase or moss grey, like a wall label. The serif is never used for metadata.",
+        "section": "typography"
+      },
+      {
+        "name": "The Light Hand Rule",
+        "body": "Weights stay light: serif at 300–400, sans at 300 for body. Bold does not exist in this system; emphasis comes from size, case and tracking.",
+        "section": "typography"
+      },
+      {
+        "name": "The Air Around the Frame Rule",
+        "body": "Spacing steps up generously (1rem → 2rem → 3rem → 5rem); when in doubt, add air rather than another element. The wall is mostly empty on purpose.",
+        "section": "layout"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Surfaces are flat at rest. Shadows appear only as a response to state (hover) or for a true overlay (mobile menu). No resting drop shadows on cards, images or sections.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep every chrome colour inside the sage/olive/forest family; the paintings are the only colour events.",
+      "Do use olive only as text or thin rules (2px) for wayfinding: links, categories, dates, active states.",
+      "Do set artwork metadata like a wall label: small sans, uppercase with wide tracking (0.1–0.15em), Moss Grey.",
+      "Do frame images in Wall White with a 1px Sage Line border and a 16px radius, on a Sage Mist mat while loading.",
+      "Do keep surfaces flat at rest and reserve shadows for hover lift and the mobile menu overlay.",
+      "Do make actions and filters full pills with a Forest Ink fill or border."
+    ],
+    "donts": [
+      "Don't make it look like a blog template: no post-list chronology, no sidebar widgets, no Blogspot-style archive or date headers driving the layout.",
+      "Don't use bold weights; hierarchy comes from size, case and tracking.",
+      "Don't fill large areas or buttons with olive; Forest Ink is the solid colour.",
+      "Don't add resting drop shadows to cards, images or sections.",
+      "Don't introduce sharp square corners on interactive elements.",
+      "Don't set metadata or captions in the serif; Cormorant is for names, titles and quotes."
+    ]
+  }
+}

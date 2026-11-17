@@ -1,0 +1,38 @@
+schema: spec-driven
+
+context: |
+  Idioma: escribe TODOS los artefactos de OpenSpec (proposal, design, tasks, specs, resúmenes
+  de archivo) en ESPAÑOL. Mantén en inglés las palabras clave SHALL/MUST y los encabezados
+  estructurales, porque el validador los exige.
+
+  Proyecto: sitio web de la pintora Concha Lorente (portfolio de obras), migrado desde
+  concha-lorente.blogspot.com. Astro 5 estático, sin JS en cliente salvo el toggle del menú móvil.
+  Rama canónica: `main`.
+
+  Restricciones que no son obvias leyendo el código:
+  - El contenido son archivos Markdown en `src/content/obras/` validados por el schema de
+    `src/content.config.ts` (categorías cerradas: ESTRUCTURAS, BOCETOS Y DIBUJOS, PRIMERAS ETAPAS).
+  - Las imágenes siguen alojadas en blogger.googleusercontent.com (migración pendiente).
+    Cualquier cambio que dependa de ellas debe tenerlo en cuenta.
+  - Las URLs de las obras son limpias (sin extensión .md); no romperlas (SEO, enlaces antiguos).
+  - La propietaria no es desarrolladora: lo que se añada debe poder mantenerse sin tocar código.
+  - Nunca pongas secretos ni claves en specs o código.
+
+rules:
+  proposal:
+    - Indica explícitamente qué queda fuera de alcance.
+    - Si el cambio es visual, indica qué comportamiento actual se conserva.
+  design:
+    - Si hay animaciones, describe el comportamiento con prefers-reduced-motion y en móvil.
+    - Los cambios visuales deben alinearse con PRODUCT.md y DESIGN.md (Impeccable).
+  tasks:
+    - Incluye una tarea final de verificación (`npm run build`) antes de dar el cambio por terminado.
+
+operations:
+  apply:
+    guidance:
+      - No hagas commit ni deploy durante apply; solo cuando el usuario lo pida.
+      - Marca cada tarea en tasks.md en cuanto se complete.
+  archive:
+    guidance:
+      - Archiva solo cuando el cambio esté verificado (o descartado).
