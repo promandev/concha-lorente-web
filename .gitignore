@@ -4,3 +4,12 @@ dist/
 .env
 .env.*
 !.env.example
+
+# Vercel (se crea al enlazar el proyecto)
+.vercel/
+
+# Estado local de las herramientas de IA (no se comparte)
+.impeccable/hook.cache.json
+.impeccable/hook.pending.json
+.impeccable/config.local.json
+.claude/settings.local.json
