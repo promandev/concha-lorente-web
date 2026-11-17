@@ -6,7 +6,7 @@ import Layout from '../layouts/Layout.astro';
   <div class="not-found">
     <h1>404</h1>
     <p>La página que buscas no existe.</p>
-    <a href="/">Volver al inicio</a>
+    <a href="/" class="btn btn-secondary">Volver al inicio</a>
   </div>
 </Layout>
 
@@ -18,7 +18,8 @@ import Layout from '../layouts/Layout.astro';
 
   .not-found h1 {
     font-size: 6rem;
-    color: var(--color-border);
+    color: var(--color-text-light);
+    font-weight: 300;
     margin-bottom: 1rem;
   }
 
@@ -26,21 +27,5 @@ import Layout from '../layouts/Layout.astro';
     font-size: 1.2rem;
     color: var(--color-text-light);
     margin-bottom: 2rem;
-  }
-
-  .not-found a {
-    display: inline-block;
-    padding: 0.75rem 2rem;
-    border: 2px solid var(--color-text);
-    color: var(--color-text);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: all 0.3s ease;
-  }
-
-  .not-found a:hover {
-    background: var(--color-text);
-    color: var(--color-white);
   }
 </style>

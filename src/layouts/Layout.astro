@@ -6,6 +6,7 @@ interface Props {
 
 const { title, description = 'Pinturas de Concha Lorente. Técnica mixta, acrílico y óleo. Pintora nacida en Madrid, miembro de la Asociación Española de Pintores y Escultores.' } = Astro.props;
 const currentPath = Astro.url.pathname;
+const path = currentPath.replace(/\/$/, '') || '/';
 ---
 
 <!doctype html>
@@ -18,8 +19,10 @@ const currentPath = Astro.url.pathname;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <script is:inline>document.documentElement.classList.add('js');</script>
   </head>
   <body>
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
     <header class="site-header">
       <div class="header-inner">
         <a href="/" class="logo">
@@ -31,17 +34,17 @@ const currentPath = Astro.url.pathname;
             <span></span><span></span><span></span>
           </button>
           <ul id="nav-menu" class="nav-list">
-            <li><a href="/" class:list={[{ active: currentPath === '/' }]}>Inicio</a></li>
-            <li><a href="/obra" class:list={[{ active: currentPath.startsWith('/obra') }]}>Obra</a></li>
-            <li><a href="/sobre-mi" class:list={[{ active: currentPath === '/sobre-mi/' }]}>Sobre mí</a></li>
-            <li><a href="/exposiciones" class:list={[{ active: currentPath === '/exposiciones/' }]}>Exposiciones</a></li>
-            <li><a href="/contacto" class:list={[{ active: currentPath === '/contacto/' }]}>Contacto</a></li>
+            <li><a href="/" class:list={[{ active: path === '/' }]}>Inicio</a></li>
+            <li><a href="/obra" class:list={[{ active: path.startsWith('/obra') }]}>Obra</a></li>
+            <li><a href="/sobre-mi" class:list={[{ active: path === '/sobre-mi' }]}>Sobre mí</a></li>
+            <li><a href="/exposiciones" class:list={[{ active: path === '/exposiciones' }]}>Exposiciones</a></li>
+            <li><a href="/contacto" class:list={[{ active: path === '/contacto' }]}>Contacto</a></li>
           </ul>
         </nav>
       </div>
     </header>
 
-    <main>
+    <main id="contenido" tabindex="-1">
       <slot />
     </main>
 
@@ -62,12 +65,12 @@ const currentPath = Astro.url.pathname;
         toggle.addEventListener('click', () => {
           const expanded = toggle.getAttribute('aria-expanded') === 'true';
           toggle.setAttribute('aria-expanded', String(!expanded));
+          toggle.setAttribute('aria-label', expanded ? 'Abrir menú' : 'Cerrar menú');
           menu.classList.toggle('open');
         });
       }
 
       // Scroll reveal
-      document.body.classList.add('js-ready');
       const revealObserver = new IntersectionObserver(
         (entries) =>
           entries.forEach((entry) => {
@@ -109,13 +112,15 @@ const currentPath = Astro.url.pathname;
         --color-accent-hover: #3c5e2c;
         --color-border: #cfe0c8;
         --color-white: #ffffff;
+        --color-mist: #e5f0e0;
         --font-heading: 'Cormorant Garamond', Georgia, serif;
         --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
         --max-width: 1200px;
         --header-height: 80px;
         --radius-sm: 8px;
         --radius-md: 16px;
-        --radius-lg: 24px;
+        --shadow-lift: 0 20px 50px rgba(0,0,0,0.1);
+        --shadow-menu: 0 8px 24px rgba(0,0,0,0.08);
       }
 
       html {
@@ -136,6 +141,28 @@ const currentPath = Astro.url.pathname;
 
       main {
         flex: 1;
+      }
+
+      main:focus {
+        outline: none;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: 1rem;
+        top: -4rem;
+        z-index: 200;
+        padding: 0.75rem 1.25rem;
+        background: var(--color-text);
+        color: var(--color-white);
+        font-size: 0.85rem;
+        border-radius: 100px;
+        transition: top 0.2s ease;
+      }
+
+      .skip-link:focus {
+        top: 1rem;
+        color: var(--color-white);
       }
 
       img {
@@ -219,7 +246,7 @@ const currentPath = Astro.url.pathname;
         color: var(--color-text-light);
         text-transform: uppercase;
         letter-spacing: 0.1em;
-        padding: 0.25rem 0;
+        padding: 0.75rem 0;
         border-bottom: 2px solid transparent;
         transition: all 0.2s ease;
       }
@@ -235,7 +262,7 @@ const currentPath = Astro.url.pathname;
         background: none;
         border: none;
         cursor: pointer;
-        padding: 0.5rem;
+        padding: 0.75rem;
         flex-direction: column;
         gap: 5px;
       }
@@ -264,8 +291,8 @@ const currentPath = Astro.url.pathname;
           padding: 1.5rem 2rem;
           gap: 1rem;
           border-bottom: 1px solid var(--color-border);
-          box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-        border-radius: 0 0 var(--radius-md) var(--radius-md);
+          box-shadow: var(--shadow-menu);
+          border-radius: 0 0 var(--radius-md) var(--radius-md);
         }
 
         .nav-list.open {
@@ -293,6 +320,8 @@ const currentPath = Astro.url.pathname;
       }
 
       .footer-links a {
+        display: inline-block;
+        padding: 0.75rem 0.5rem;
         font-size: 0.8rem;
       }
 
@@ -314,6 +343,41 @@ const currentPath = Astro.url.pathname;
         color: var(--color-text-light);
         font-size: 0.95rem;
         margin-bottom: 3rem;
+      }
+
+      /* BUTTONS (pill) */
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0.85rem 2.5rem;
+        background: var(--color-text);
+        color: var(--color-white);
+        font-family: var(--font-body);
+        font-size: 0.8rem;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        text-align: center;
+        border: 2px solid var(--color-text);
+        border-radius: 100px;
+        transition: all 0.3s ease;
+      }
+
+      .btn:hover {
+        background: transparent;
+        color: var(--color-text);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        color: var(--color-text);
+      }
+
+      .btn-secondary:hover {
+        background: var(--color-text);
+        color: var(--color-white);
       }
 
       /* GALLERY GRID */
@@ -340,7 +404,7 @@ const currentPath = Astro.url.pathname;
 
       .obra-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        box-shadow: var(--shadow-lift);
       }
 
       .obra-card a {
@@ -351,7 +415,7 @@ const currentPath = Astro.url.pathname;
       .obra-card-image {
         aspect-ratio: 4/3;
         overflow: hidden;
-        background-color: #e5f0e0;
+        background-color: var(--color-mist);
       }
 
       .obra-card-image img {
@@ -401,7 +465,7 @@ const currentPath = Astro.url.pathname;
       }
 
       .category-filter a {
-        padding: 0.5rem 1.25rem;
+        padding: 0.7rem 1.25rem;
         border: 1px solid var(--color-border);
         border-radius: 100px;
         font-size: 0.8rem;
@@ -480,36 +544,73 @@ const currentPath = Astro.url.pathname;
       }
 
       /* ── Scroll reveal ── */
-      body.js-ready .obra-card,
-      body.js-ready .section-title,
-      body.js-ready .section-subtitle,
-      body.js-ready .bio-section,
-      body.js-ready .expo-item,
-      body.js-ready .about-text,
-      body.js-ready .about-image {
+      html.js .obra-card,
+      html.js .section-title,
+      html.js .section-subtitle,
+      html.js .bio-section,
+      html.js .expo-item,
+      html.js .about-text,
+      html.js .about-image {
         opacity: 0;
         transform: translateY(24px);
         transition: opacity 0.65s ease, transform 0.65s ease;
       }
 
-      body.js-ready .obra-card {
+      html.js .obra-card {
         transition: opacity 0.65s ease, transform 0.65s ease, box-shadow 0.3s ease;
       }
 
-      body.js-ready .obra-card.revealed,
-      body.js-ready .section-title.revealed,
-      body.js-ready .section-subtitle.revealed,
-      body.js-ready .bio-section.revealed,
-      body.js-ready .expo-item.revealed,
-      body.js-ready .about-text.revealed,
-      body.js-ready .about-image.revealed {
+      html.js .obra-card.revealed,
+      html.js .section-title.revealed,
+      html.js .section-subtitle.revealed,
+      html.js .bio-section.revealed,
+      html.js .expo-item.revealed,
+      html.js .about-text.revealed,
+      html.js .about-image.revealed {
         opacity: 1;
         transform: translateY(0);
       }
 
       /* After scroll-in, restore fast hover transitions on cards */
-      body.js-ready .obra-card.revealed {
+      html.js .obra-card.revealed {
         transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Movimiento reducido: se conserva el fundido corto (señala el cambio de estado),
+         se quitan el desplazamiento, el scroll suave y el zoom de imagen. */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+
+        html.js .obra-card,
+        html.js .section-title,
+        html.js .section-subtitle,
+        html.js .bio-section,
+        html.js .expo-item,
+        html.js .about-text,
+        html.js .about-image {
+          transform: none;
+          transition: opacity 0.25s ease;
+        }
+
+        html.js .obra-card {
+          transition: opacity 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        html.js .obra-card.revealed {
+          transition: box-shadow 0.3s ease;
+        }
+
+        .obra-card:hover,
+        .obra-card:hover .obra-card-image img,
+        .obra-card-image img {
+          transform: none;
+        }
+
+        [style*="transition-delay"] {
+          transition-delay: 0s !important;
+        }
       }
     </style>
   </body>

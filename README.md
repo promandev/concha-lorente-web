@@ -70,10 +70,15 @@ fecha: 2024-01-15
 categoria: "ESTRUCTURAS"
 imagen: "https://url-de-la-imagen.jpg"
 destacada: "Texto opcional sobre premios o selecciones"
+disponibilidad: "Disponible"   # opcional: Disponible, Vendida o Consultar
+portada: true                  # opcional: usar esta obra como imagen principal de la portada
 ---
 ```
 
 Las categorías disponibles son: `ESTRUCTURAS`, `BOCETOS Y DIBUJOS`, `PRIMERAS ETAPAS`.
+
+- `disponibilidad` (opcional) se muestra en la ficha de la obra. Valores permitidos: `Disponible`, `Vendida`, `Consultar`. Si una obra es `Vendida`, el botón de la ficha pasa a "Consultar obra similar". Si se escribe otro valor, el sitio no se construye y avisa de qué obra y qué campo falla.
+- `portada` (opcional) marca la obra que aparece grande al abrir la web. Si ninguna obra la define, se usa la más reciente. Conviene marcar solo una.
 
 ## Futuro: CMS
 

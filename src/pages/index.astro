@@ -1,24 +1,47 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { imgAt, imgSrcset } from '../lib/img';
 
 const obras = await getCollection('obras');
 const obrasOrdenadas = obras.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
 const destacadas = obrasOrdenadas.slice(0, 6);
+// Portada: la primera obra con `portada: true`; si no hay ninguna, la más reciente.
+const portada = obrasOrdenadas.find((o) => o.data.portada) ?? obrasOrdenadas[0];
+const portadaSlug = portada.id.replace(/\.md$/, '');
+// La banda "Sobre la artista" usa otra obra distinta de la portada.
+const aboutObra = obrasOrdenadas.filter((o) => o.id !== portada.id)[2] ?? obrasOrdenadas[1];
 ---
 
 <Layout title="Concha Lorente - Pinturas">
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-content">
+    <div class="hero-intro">
       <h1>Concha Lorente</h1>
       <p class="hero-subtitle">Pinturas</p>
-      <blockquote class="hero-quote">
-        "La sintetización geométrica de sus formas junto con la tonalidad que emplea, da como resultado armonía y poética en la composición. Con lo que la obra de Concha Lorente se convierte en una sutil y bella abstracción".
-        <cite>— D. Antonio Granados Valdés, miembro de la Asociación de Críticos de Arte Madrileña, Española e Internacional</cite>
-      </blockquote>
-      <a href="/obra" class="cta-button">Ver obra completa</a>
     </div>
+    <figure class="hero-work">
+      <a href={`/obra/${portadaSlug}`} class="hero-work-frame" aria-label={`Ver la obra ${portada.data.titulo}`}>
+        <img
+          src={imgAt(portada.data.imagen, 1200)}
+          srcset={imgSrcset(portada.data.imagen, [600, 900, 1200, 1600])}
+          sizes="(max-width: 768px) 100vw, 900px"
+          alt={`${portada.data.titulo}, de Concha Lorente: ${portada.data.tecnica}`}
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </a>
+      <figcaption class="hero-work-caption">
+        <a href={`/obra/${portadaSlug}`} class="hero-work-title">{portada.data.titulo}</a>
+        <span class="hero-work-meta">{portada.data.tecnica}, {portada.data.dimensiones} cm</span>
+      </figcaption>
+    </figure>
+    <blockquote class="hero-quote">
+      "La sintetización geométrica de sus formas junto con la tonalidad que emplea, da como resultado armonía y poética en la composición. Con lo que la obra de Concha Lorente se convierte en una sutil y bella abstracción".
+      <cite>— D. Antonio Granados Valdés, miembro de la Asociación de Críticos de Arte Madrileña, Española e Internacional</cite>
+    </blockquote>
+    <a href="/obra" class="btn">Ver obra completa</a>
   </section>
 
   <!-- OBRAS DESTACADAS -->
@@ -27,11 +50,19 @@ const destacadas = obrasOrdenadas.slice(0, 6);
       <h2 class="section-title">Obra reciente</h2>
       <p class="section-subtitle">Selección de las últimas creaciones</p>
       <div class="gallery-grid">
-        {destacadas.map((obra) => (
+        {destacadas.map((obra, i) => (
           <article class="obra-card">
             <a href={`/obra/${obra.id.replace(/\.md$/, '')}`}>
               <div class="obra-card-image">
-                <img src={obra.data.imagen} alt={obra.data.titulo} loading="lazy" />
+                <img
+                  src={imgAt(obra.data.imagen, 800)}
+                  srcset={imgSrcset(obra.data.imagen)}
+                  sizes="(max-width: 640px) 100vw, 380px"
+                  alt={obra.data.titulo}
+                  loading={i < 3 ? 'eager' : 'lazy'}
+                  fetchpriority={i === 0 ? 'high' : undefined}
+                  decoding="async"
+                />
               </div>
               <div class="obra-card-info">
                 <h3 class="obra-card-title">{obra.data.titulo}</h3>
@@ -43,7 +74,7 @@ const destacadas = obrasOrdenadas.slice(0, 6);
         ))}
       </div>
       <div class="section-cta">
-        <a href="/obra" class="cta-button cta-secondary">Ver todas las obras</a>
+        <a href="/obra" class="btn btn-secondary">Ver todas las obras</a>
       </div>
     </div>
   </section>
@@ -59,7 +90,14 @@ const destacadas = obrasOrdenadas.slice(0, 6);
           <a href="/sobre-mi" class="text-link">Conocer más →</a>
         </div>
         <div class="about-image">
-          <img src={obrasOrdenadas[2]?.data.imagen} alt="Obra de Concha Lorente" loading="lazy" />
+          <img
+            src={imgAt(aboutObra.data.imagen, 800)}
+            srcset={imgSrcset(aboutObra.data.imagen)}
+            sizes="(max-width: 768px) 100vw, 560px"
+            alt={`${aboutObra.data.titulo}, de Concha Lorente: ${aboutObra.data.tecnica}`}
+            loading="lazy"
+            decoding="async"
+          />
         </div>
       </div>
     </div>
@@ -68,50 +106,92 @@ const destacadas = obrasOrdenadas.slice(0, 6);
 
 <style>
   .hero {
-    min-height: 70vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
     text-align: center;
-    padding: 4rem 2rem;
-    background: linear-gradient(180deg, #e8f2e4 0%, var(--color-bg) 100%);
+    padding: 2.5rem 2rem 4rem;
   }
 
-  .hero-content {
-    max-width: 700px;
+  .hero-intro {
+    margin-bottom: 1.5rem;
   }
 
   .hero h1 {
     font-family: var(--font-heading);
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 300;
     letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
+    line-height: 1.2;
     animation: fadeInUp 0.9s ease both;
     animation-delay: 0.05s;
   }
 
   .hero-subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.4em;
     color: var(--color-text-light);
-    margin-bottom: 2.5rem;
     animation: fadeInUp 0.9s ease both;
     animation-delay: 0.22s;
   }
 
-  .hero-quote {
+  .hero-work {
+    width: 100%;
+    max-width: 900px;
+    animation: fadeInUp 0.9s ease both;
+    animation-delay: 0.4s;
+  }
+
+  /* Marco de altura fija: la obra se ve entera (contain) sobre un paspartú de
+     Sage Mist y el espacio queda reservado antes de cargar la imagen. */
+  .hero-work-frame {
+    display: block;
+    height: min(58vh, 520px);
+    background: var(--color-mist);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .hero-work-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .hero-work-caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    margin-top: 1rem;
+  }
+
+  .hero-work-title {
     font-family: var(--font-heading);
     font-size: 1.15rem;
+    color: var(--color-text);
+  }
+
+  .hero-work-meta {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+  }
+
+  .hero-quote {
+    max-width: 640px;
+    margin: 3rem 0 2rem;
+    font-family: var(--font-heading);
+    font-size: 1rem;
     font-style: italic;
     color: var(--color-text);
     line-height: 1.8;
     border: none;
     padding: 0;
-    margin-bottom: 2.5rem;
     animation: fadeInUp 0.9s ease both;
-    animation-delay: 0.4s;
+    animation-delay: 0.6s;
   }
 
   .hero-quote cite {
@@ -119,38 +199,24 @@ const destacadas = obrasOrdenadas.slice(0, 6);
     font-size: 0.8rem;
     font-style: normal;
     color: var(--color-text-light);
-    margin-top: 1rem;
+    margin-top: 0.75rem;
     font-family: var(--font-body);
   }
 
-  .cta-button {
-    display: inline-block;
-    padding: 0.85rem 2.5rem;
-    background: var(--color-text);
-    color: var(--color-white);
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-    border: 2px solid var(--color-text);
-    border-radius: 100px;
-    transition: all 0.3s ease;
+  .hero .btn {
     animation: fadeInUp 0.9s ease both;
-    animation-delay: 0.6s;
+    animation-delay: 0.75s;
   }
 
-  .cta-button:hover {
-    background: transparent;
-    color: var(--color-text);
-  }
-
-  .cta-secondary {
-    background: transparent;
-    color: var(--color-text);
-  }
-
-  .cta-secondary:hover {
-    background: var(--color-text);
-    color: var(--color-white);
+  @media (prefers-reduced-motion: reduce) {
+    .hero h1,
+    .hero-subtitle,
+    .hero-work,
+    .hero-quote,
+    .hero .btn {
+      animation: fadeIn 0.25s ease both;
+      animation-delay: 0s;
+    }
   }
 
   .featured-section {
@@ -195,7 +261,7 @@ const destacadas = obrasOrdenadas.slice(0, 6);
   .about-image {
     aspect-ratio: 3/4;
     overflow: hidden;
-    background: #e5f0e0;
+    background: var(--color-mist);
     border-radius: var(--radius-md);
   }
 
@@ -211,12 +277,16 @@ const destacadas = obrasOrdenadas.slice(0, 6);
   }
 
   @media (max-width: 768px) {
-    .hero h1 {
-      font-size: 2.5rem;
+    .hero {
+      padding: 1.5rem 1rem 3rem;
     }
 
-    .hero-quote {
-      font-size: 1rem;
+    .hero h1 {
+      font-size: 2rem;
+    }
+
+    .hero-work-frame {
+      height: min(58vh, 120vw);
     }
 
     .about-grid {

@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { imgAt, imgSrcset } from '../../lib/img';
+import { consultaMailto, TIENDA_URL } from '../../lib/consulta';
 
 export async function getStaticPaths() {
   const obras = await getCollection('obras');
@@ -11,7 +13,11 @@ export async function getStaticPaths() {
 }
 
 const { obra } = Astro.props;
-const { titulo, tecnica, dimensiones, fecha, categoria, imagen, destacada } = obra.data;
+const { titulo, tecnica, dimensiones, fecha, categoria, imagen, destacada, disponibilidad } = obra.data;
+
+const vendida = disponibilidad === 'Vendida';
+const fichaUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+const mailto = consultaMailto({ titulo, tecnica, dimensiones, url: fichaUrl, vendida });
 
 const fechaFormateada = fecha.toLocaleDateString('es-ES', {
   year: 'numeric',
@@ -46,7 +52,14 @@ const next = currentIndex < obrasOrdenadas.length - 1 ? obrasOrdenadas[currentIn
     <a href="/obra" class="back-link">← Volver a todas las obras</a>
     <div class="obra-detail-inner">
       <div class="obra-image-container">
-        <img src={imagen} alt={titulo} />
+        <img
+          src={imgAt(imagen, 1200)}
+          srcset={imgSrcset(imagen, [600, 900, 1200, 1600])}
+          sizes="(max-width: 768px) 100vw, 700px"
+          alt={titulo}
+          fetchpriority="high"
+          decoding="async"
+        />
       </div>
       <div class="obra-info-panel">
         <a href={`/obra?categoria=${categoriaSlug[categoria] ?? ''}`} class="obra-category-link">{categoria}</a>
@@ -58,7 +71,17 @@ const next = currentIndex < obrasOrdenadas.length - 1 ? obrasOrdenadas[currentIn
           <dd>{dimensiones} cm</dd>
           <dt>Fecha</dt>
           <dd>{fechaFormateada}</dd>
+          {disponibilidad && (
+            <>
+              <dt>Disponibilidad</dt>
+              <dd>{disponibilidad}</dd>
+            </>
+          )}
         </dl>
+        <div class="obra-actions">
+          <a href={mailto} class="btn">{vendida ? 'Consultar obra similar' : 'Consultar esta obra'}</a>
+          <a href={TIENDA_URL} class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Ver en Artelista</a>
+        </div>
         {destacada && (
           <div class="obra-highlight">
             <p>{destacada}</p>
@@ -190,11 +213,19 @@ const next = currentIndex < obrasOrdenadas.length - 1 ? obrasOrdenadas[currentIn
     font-size: 0.95rem;
   }
 
+  .obra-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 22rem;
+    margin-bottom: 2rem;
+  }
+
   .obra-highlight {
-    background: #ecf5e8;
+    background: var(--color-mist);
     padding: 1.25rem 1.5rem;
-    border-left: 3px solid var(--color-accent);
-    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
     margin-bottom: 2rem;
   }
 

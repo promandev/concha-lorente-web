@@ -11,6 +11,8 @@ const obras = defineCollection({
     imagen: z.string(),
     destacada: z.string().optional(),
     orden: z.number().optional(),
+    disponibilidad: z.enum(['Disponible', 'Vendida', 'Consultar']).optional(),
+    portada: z.boolean().optional(),
   }),
 });
 
