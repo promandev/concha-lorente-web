@@ -83,7 +83,7 @@ const path = currentPath.replace(/\/$/, '') || '/';
       );
       document
         .querySelectorAll(
-          '.obra-card, .section-title, .section-subtitle, .bio-section, .expo-item, .about-text, .about-image'
+          '.obra-card, .pared-obra, .sala-titulo, .section-title, .section-subtitle, .bio-section, .expo-item, .about-text, .about-image'
         )
         .forEach((el) => {
           if (el.classList.contains('obra-card')) {
@@ -475,11 +475,108 @@ const path = currentPath.replace(/\/$/, '') || '/';
         transition: all 0.2s ease;
       }
 
-      .category-filter a:hover,
-      .category-filter a.active {
+      .category-filter a:hover {
         background: var(--color-text);
         color: var(--color-white);
         border-color: var(--color-text);
+      }
+
+      /* SALAS Y PARED DE OBRAS (catálogo): filas justificadas solo con CSS.
+         Cada obra crece en proporción a su formato (--ratio = ancho/alto), así que
+         las piezas de una fila comparten altura y ninguna se recorta. */
+      .sala {
+        margin-bottom: 5rem;
+        scroll-margin-top: calc(var(--header-height) + 1.5rem);
+      }
+
+      .sala-titulo {
+        font-size: 2.5rem;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+
+      .pared {
+        --altura-fila: 280px;
+        --altura-max: 440px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        gap: 2.5rem 1.5rem;
+      }
+
+      /* Relleno final: impide que la última fila se estire hasta ocupar todo el ancho. */
+      .pared::after {
+        content: '';
+        flex-grow: 1000;
+      }
+
+      .pared-obra {
+        flex-grow: var(--ratio);
+        flex-shrink: 1;
+        flex-basis: calc(var(--ratio) * var(--altura-fila));
+        max-width: calc(var(--ratio) * var(--altura-max));
+        min-width: 0;
+      }
+
+      .pared-obra a {
+        display: block;
+        color: inherit;
+      }
+
+      .pared-obra-img {
+        aspect-ratio: var(--ratio);
+        overflow: hidden;
+        background-color: var(--color-mist);
+      }
+
+      .pared-obra-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .pared-obra-cartela {
+        padding-top: 0.6rem;
+      }
+
+      .pared-obra-titulo {
+        font-family: var(--font-heading);
+        font-size: 1.1rem;
+        font-weight: 400;
+        line-height: 1.3;
+        transition: color 0.2s ease;
+      }
+
+      .pared-obra a:hover .pared-obra-titulo {
+        color: var(--color-accent-hover);
+      }
+
+      .pared-obra-datos {
+        font-size: 0.8rem;
+        color: var(--color-text-light);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 1000px) {
+        .pared {
+          --altura-fila: 220px;
+          --altura-max: 360px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .pared {
+          display: block;
+        }
+
+        .pared::after {
+          display: none;
+        }
+
+        .pared-obra {
+          max-width: none;
+          margin-bottom: 2rem;
+        }
       }
 
       /* PAGE HERO */
@@ -508,6 +605,10 @@ const path = currentPath.replace(/\/$/, '') || '/';
         }
 
         .section-title {
+          font-size: 1.8rem;
+        }
+
+        .sala-titulo {
           font-size: 1.8rem;
         }
       }
@@ -545,6 +646,8 @@ const path = currentPath.replace(/\/$/, '') || '/';
 
       /* ── Scroll reveal ── */
       html.js .obra-card,
+      html.js .pared-obra,
+      html.js .sala-titulo,
       html.js .section-title,
       html.js .section-subtitle,
       html.js .bio-section,
@@ -561,6 +664,8 @@ const path = currentPath.replace(/\/$/, '') || '/';
       }
 
       html.js .obra-card.revealed,
+      html.js .pared-obra.revealed,
+      html.js .sala-titulo.revealed,
       html.js .section-title.revealed,
       html.js .section-subtitle.revealed,
       html.js .bio-section.revealed,
@@ -584,6 +689,8 @@ const path = currentPath.replace(/\/$/, '') || '/';
         }
 
         html.js .obra-card,
+        html.js .pared-obra,
+        html.js .sala-titulo,
         html.js .section-title,
         html.js .section-subtitle,
         html.js .bio-section,

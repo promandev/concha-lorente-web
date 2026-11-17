@@ -26,3 +26,9 @@ Portfolio de la pintora Concha Lorente (migrado desde Blogspot). Astro 5 estáti
 - **OpenSpec** para cambios no triviales: `/opsx:propose "idea"` → `/opsx:apply` → `/opsx:archive`. `/opsx:explore` para pensar antes. Config en `openspec/config.yaml`.
 - **Impeccable** para todo trabajo de diseño/UI (skill global `impeccable`). Contexto en `PRODUCT.md` y `DESIGN.md` (raíz); si no existen, inicializar primero.
 - **Codegraph** (MCP global) para explorar código antes de editar.
+
+## Catálogo `/obra` y caché de dimensiones
+- `/obra` cuelga las obras en filas justificadas y necesita la proporción real de cada imagen. Se mide al compilar (`src/lib/dimensiones.ts`) y se guarda en `src/data/obra-dimensiones.json`, que **se versiona**: con la caché completa el build no usa la red.
+- **Al añadir una obra o cambiar la URL de su imagen:** compila en local (`npm run build`, desde `D:\...` en mayúscula), comprueba que `src/data/obra-dimensiones.json` ha cambiado y commitéalo junto con la obra.
+- **Si reutilizas la misma URL para otra imagen distinta:** borra su entrada del JSON y vuelve a compilar; la clave es la URL y, si no cambia, se seguiría usando la proporción antigua.
+- Si la entrada falta en Vercel, se mide al vuelo (build más lento) y no se guarda. Si no se puede medir, la obra se coloca en 4:3 y el build avisa con su título (`[dimensiones] No se pudo medir…`).

@@ -2,23 +2,38 @@
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { imgAt, imgSrcset } from '../../lib/img';
+import { getDimensiones } from '../../lib/dimensiones';
 
-const obras = await getCollection('obras');
-const obrasOrdenadas = obras.sort((a, b) => b.data.fecha.getTime() - a.data.fecha.getTime());
-
-// slug → label mapping (URLs in lowercase, clean)
-const categorias = [
-  { slug: 'estructuras',        label: 'Estructuras' },
-  { slug: 'bocetos-y-dibujos',  label: 'Bocetos y dibujos' },
-  { slug: 'primeras-etapas',    label: 'Primeras etapas' },
+// Salas, en el orden en que se cuelgan. `categoria` es el valor del frontmatter.
+const series = [
+  { slug: 'estructuras', label: 'Estructuras', categoria: 'ESTRUCTURAS' },
+  { slug: 'primeras-etapas', label: 'Primeras etapas', categoria: 'PRIMERAS ETAPAS' },
+  { slug: 'bocetos-y-dibujos', label: 'Bocetos y dibujos', categoria: 'BOCETOS Y DIBUJOS' },
 ] as const;
 
-// slug → raw value used in content frontmatter
-const slugToCategoria: Record<string, string> = {
-  'estructuras':       'ESTRUCTURAS',
-  'bocetos-y-dibujos': 'BOCETOS Y DIBUJOS',
-  'primeras-etapas':   'PRIMERAS ETAPAS',
-};
+// Más reciente primero dentro de cada sala.
+const obras = (await getCollection('obras')).sort(
+  (a, b) => b.data.fecha.getTime() - a.data.fecha.getTime()
+);
+
+const salas = (
+  await Promise.all(
+    series.map(async (serie) => ({
+      ...serie,
+      obras: await Promise.all(
+        obras
+          .filter((o) => o.data.categoria === serie.categoria)
+          .map(async (o) => {
+            const { width, height } = await getDimensiones(o.data.imagen, o.data.titulo);
+            return { obra: o, ratio: width / height };
+          })
+      ),
+    }))
+  )
+).filter((sala) => sala.obras.length > 0); // una serie sin obras no genera sala
+
+// Las primeras obras de la primera sala se cargan con prioridad.
+let posicion = 0;
 ---
 
 <Layout title="Obra - Concha Lorente Pinturas" description="Galería completa de pinturas de Concha Lorente. Técnica mixta, acrílico, óleo y collage.">
@@ -28,76 +43,53 @@ const slugToCategoria: Record<string, string> = {
   </div>
 
   <div class="container">
-    <nav class="category-filter" aria-label="Filtrar por categoría">
-      <a href="/obra" data-filter="todas">Todas</a>
-      {categorias.map((cat) => (
-        <a href={`/obra?categoria=${cat.slug}`} data-filter={cat.slug}>
-          {cat.label}
-        </a>
+    <nav class="category-filter" aria-label="Ir a una serie">
+      {salas.map((sala) => (
+        <a href={`#${sala.slug}`}>{sala.label}</a>
       ))}
     </nav>
 
-    <div class="gallery-grid" id="obras-grid">
-      {obrasOrdenadas.map((obra, i) => {
-        const categoriaSlug = Object.entries(slugToCategoria).find(
-          ([, v]) => v === obra.data.categoria
-        )?.[0] ?? '';
-        return (
-          <article class="obra-card" data-categoria={categoriaSlug}>
-            <a href={`/obra/${obra.id.replace(/\.md$/, '')}`}>
-              <div class="obra-card-image">
-                <img
-                  src={imgAt(obra.data.imagen, 800)}
-                  srcset={imgSrcset(obra.data.imagen)}
-                  sizes="(max-width: 640px) 100vw, 380px"
-                  alt={obra.data.titulo}
-                  loading={i < 3 ? 'eager' : 'lazy'}
-                  fetchpriority={i === 0 ? 'high' : undefined}
-                  decoding="async"
-                />
-              </div>
-              <div class="obra-card-info">
-                <h3 class="obra-card-title">{obra.data.titulo}</h3>
-                <p class="obra-card-technique">{obra.data.tecnica} ({obra.data.dimensiones})</p>
-                <span class="obra-card-category">{obra.data.categoria}</span>
-              </div>
-            </a>
-          </article>
-        );
-      })}
-    </div>
+    {salas.map((sala) => (
+      <section class="sala" id={sala.slug} aria-labelledby={`sala-${sala.slug}`}>
+        <h2 class="sala-titulo" id={`sala-${sala.slug}`}>{sala.label}</h2>
+        <div class="pared">
+          {sala.obras.map(({ obra, ratio }) => {
+            const prioridad = posicion++ < 6;
+            return (
+              <article class="pared-obra" style={`--ratio:${ratio.toFixed(4)}`}>
+                <a href={`/obra/${obra.id.replace(/\.md$/, '')}`}>
+                  <div class="pared-obra-img">
+                    <img
+                      src={imgAt(obra.data.imagen, 800)}
+                      srcset={imgSrcset(obra.data.imagen)}
+                      sizes={`(max-width: 640px) 100vw, ${Math.round(ratio * 360)}px`}
+                      alt=""
+                      loading={prioridad ? 'eager' : 'lazy'}
+                      fetchpriority={posicion === 1 ? 'high' : undefined}
+                      decoding="async"
+                    />
+                  </div>
+                  <div class="pared-obra-cartela">
+                    <h3 class="pared-obra-titulo">{obra.data.titulo}</h3>
+                    <p class="pared-obra-datos">{obra.data.tecnica}, {obra.data.dimensiones} cm</p>
+                  </div>
+                </a>
+              </article>
+            );
+          })}
+        </div>
+      </section>
+    ))}
   </div>
 </Layout>
 
 <script>
-  function applyFilter() {
-    const param = new URLSearchParams(window.location.search).get('categoria') ?? 'todas';
-
-    // Mark active filter button
-    document.querySelectorAll<HTMLAnchorElement>('.category-filter a').forEach((a) => {
-      a.classList.toggle('active', (a.dataset.filter ?? '') === param);
-    });
-
-    // Show / hide cards
-    document.querySelectorAll<HTMLElement>('#obras-grid .obra-card').forEach((card) => {
-      const match = param === 'todas' || card.dataset.categoria === param;
-      card.style.display = match ? '' : 'none';
-    });
+  // Compatibilidad con los enlaces antiguos /obra?categoria=<serie>: llevan a la sala
+  // de esa serie. Un valor desconocido se ignora y el catálogo se muestra desde el principio.
+  const categoria = new URLSearchParams(window.location.search).get('categoria');
+  const sala = categoria ? document.getElementById(categoria) : null;
+  if (sala?.classList.contains('sala')) {
+    history.replaceState(null, '', `${window.location.pathname}#${categoria}`);
+    sala.scrollIntoView({ behavior: 'auto' });
   }
-
-  // Run on page load
-  applyFilter();
-
-  // Handle browser back/forward without reload
-  window.addEventListener('popstate', applyFilter);
-
-  // Intercept filter link clicks — update URL without full reload
-  document.querySelectorAll<HTMLAnchorElement>('.category-filter a').forEach((a) => {
-    a.addEventListener('click', (e) => {
-      e.preventDefault();
-      const url = new URL(a.href, window.location.href);
-      window.history.pushState({}, '', url);
-      applyFilter();
-    });
-  });
 </script>

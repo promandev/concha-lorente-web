@@ -178,7 +178,7 @@ Sage Mist is also the matte around the home hero painting and the highlight-call
 
 A centred, single-column-of-intent layout inside a 1200px container with 2rem side gutters (1rem at ≤480px). Page heroes are centred with 4rem top padding; home sections breathe with 5rem vertical padding. Reading content narrows to 600px (contact), 700px (bio) or 800px (exhibitions) and stays centred.
 
-The gallery is an auto-filling grid of cards at a 300px minimum column width with 2rem gaps (1rem at ≤480px), collapsing to one column at ≤640px. The artwork detail page splits 1.2fr image / 0.8fr information with a 4rem gap, stacking at ≤768px. The home "Sobre la artista" band is a 1:1 text/image split, also stacking at ≤768px. Exhibitions are a date/venue two-column list (200px date column) that stacks at ≤640px.
+The home's "Obra reciente" is an auto-filling grid of cards at a 300px minimum column width with 2rem gaps (1rem at ≤480px), collapsing to one column at ≤640px. The catalogue at `/obra` is different: a wall of rooms (see Components → Catalogue Wall) where each painting keeps its own proportion. The artwork detail page splits 1.2fr image / 0.8fr information with a 4rem gap, stacking at ≤768px. The home "Sobre la artista" band is a 1:1 text/image split, also stacking at ≤768px. Exhibitions are a date/venue two-column list (200px date column) that stacks at ≤640px.
 
 Interactive targets are at least 44px tall on nav links, filter chips and the menu toggle. Header is sticky, 80px tall, white, with a hairline bottom border; at ≤768px the navigation collapses behind a three-line toggle into a dropdown panel.
 
@@ -192,7 +192,7 @@ Breakpoints in use: 768px (navigation and two-column splits collapse), 640px (ga
 Flat at rest, lifted on hover. Depth is conveyed by tonal layering (white frames on sage paper) and 1px sage hairlines, not by shadows. Shadows appear only as a response to interaction or for a floating overlay.
 
 ### Shadow Vocabulary
-- **Hover lift** (`--shadow-lift`: `box-shadow: 0 20px 50px rgba(0,0,0,0.1)` with `translateY(-6px)`): artwork cards on hover, as if the frame comes off the wall toward the viewer.
+- **Hover lift** (`--shadow-lift`: `box-shadow: 0 20px 50px rgba(0,0,0,0.1)` with `translateY(-6px)`): the home's artwork cards on hover (the catalogue wall has no hover lift), as if the frame comes off the wall toward the viewer.
 - **Menu drop** (`--shadow-menu`: `box-shadow: 0 8px 24px rgba(0,0,0,0.08)`): the mobile navigation panel, the only element that floats over content.
 
 ### Named Rules
@@ -213,15 +213,24 @@ Refined and restrained: present but discreet, like the cartela beside a painting
 - **Focus:** no dedicated focus style exists yet; the browser default outline applies. A "Saltar al contenido" skip link (forest-ink pill) appears at the top-left on keyboard focus.
 
 ### Chips
-- **Style:** category filters above the gallery: transparent pill with a 1px Sage Line border, Moss Grey uppercase text at 0.8rem / 0.05em (`chip-filter`).
-- **State:** hover and active invert to a Forest Ink fill with Wall White text (`chip-filter-active`). Active state follows the `?categoria=` query parameter.
+- **Style:** series links above the catalogue, one per room: transparent pill with a 1px Sage Line border, Moss Grey uppercase text at 0.8rem / 0.05em (`chip-filter`).
+- **State:** hover inverts to a Forest Ink fill with Wall White text (`chip-filter-active`). They are plain anchor links that jump to a room (they work without JavaScript); there is no persistent active state. Old `?categoria=<serie>` links still land on the right room.
 
 ### Cards / Containers
+Used on the home ("Obra reciente"). The catalogue does not use cards; see Catalogue Wall.
 - **Corner Style:** gently rounded frame (`rounded.md`), image clipped inside.
 - **Background:** Wall White, with the image area on a Sage Mist mat at a fixed 4:3 ratio, image `object-fit: cover`.
 - **Shadow Strategy:** flat at rest; Hover Lift on hover (see Elevation & Depth), with the image zooming to 1.03 over 0.5s.
 - **Border:** 1px Sage Line.
 - **Internal Padding:** 1.25rem around the caption block: title in `title-sm`, technique and dimensions in 0.8rem Moss Grey, category in olive `label-sm`.
+
+### Catalogue Wall
+How `/obra` hangs the work: the gallery wall made literal. Three rooms in order (Estructuras, Primeras etapas, Bocetos y dibujos), each a centred Cormorant title (2.5rem, 1.8rem at ≤768px) over its paintings. No frame, border, shadow or hover lift: the paintings hang straight on Sage Paper.
+- **Rows:** justified rows. Each painting grows in proportion to its format (ratio = width/height from the real image), so the paintings of a row share one height and none is cropped. Base row height is 280px (220px at ≤1000px) and a row never grows past 440px (360px at ≤1000px); a row that would need more stays left-aligned instead of distorting the work. The last row of a room keeps the base height and is not stretched.
+- **Reserved space:** every painting reserves its final box (`aspect-ratio`) on a Sage Mist matte, so nothing shifts as images load.
+- **Cartela:** under each painting, the title in Cormorant 1.1rem (Forest Ink, olive-deep on hover) and technique and size in Moss Grey sans 0.8rem. The painting and its cartela are one link to the artwork page.
+- **Small screens:** at ≤640px one painting per row at full width in its own proportion.
+- **Rooms:** an anchor (`#estructuras`, `#primeras-etapas`, `#bocetos-y-dibujos`) leaves the room title just below the sticky header. A room with no works is not shown, and rooms carry no placeholder text.
 
 ### Navigation
 - **Desktop:** uppercase Inter labels (`label`) in Moss Grey, 2rem apart, with a transparent 2px bottom border. Hover and current page turn Forest Ink with an Olive underline.
@@ -256,9 +265,11 @@ Gentle and unhurried, all on the CSS `ease` curve. The home hero rises in sequen
 - **Do** frame images in Wall White with a 1px Sage Line border and a 16px radius, on a Sage Mist mat while loading.
 - **Do** keep surfaces flat at rest and reserve shadows for hover lift and the mobile menu overlay.
 - **Do** make actions and filters full pills with a Forest Ink fill or border.
+- **Do** show every painting whole, in its own proportion, on the catalogue wall; size rows by format, never by cropping.
 
 ### Don't:
 - **Don't** make it look like a blog template: no post-list chronology, no sidebar widgets, no Blogspot-style archive or date headers driving the layout.
+- **Don't** put paintings in cards, frames or crops on the catalogue wall, or lift them on hover.
 - **Don't** use bold weights; hierarchy comes from size, case and tracking.
 - **Don't** fill large areas or buttons with olive; Forest Ink is the solid colour.
 - **Don't** add resting drop shadows to cards, images or sections.

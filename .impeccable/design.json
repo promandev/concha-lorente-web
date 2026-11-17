@@ -243,7 +243,7 @@
       "name": "Category Filter",
       "kind": "chip",
       "refersTo": "chip-filter",
-      "description": "Pill filters above the gallery; active state inverts to forest ink.",
+      "description": "Series links above the catalogue: pill anchors that jump to each room; hover inverts to forest ink.",
       "html": "<nav class=\"ds-filter\"><a href=\"#\" class=\"ds-chip is-active\">Todas</a><a href=\"#\" class=\"ds-chip\">Estructuras</a><a href=\"#\" class=\"ds-chip\">Bocetos y dibujos</a><a href=\"#\" class=\"ds-chip\">Primeras etapas</a></nav>",
       "css": ".ds-filter { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; } .ds-chip { padding: 0.5rem 1.25rem; border: 1px solid var(--color-border, #cfe0c8); border-radius: 100px; font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-light, #5b6b52); text-decoration: none; transition: all 0.2s ease; } .ds-chip:hover, .ds-chip.is-active { background: var(--color-text, #1c2b1c); color: var(--color-white, #ffffff); border-color: var(--color-text, #1c2b1c); }"
     },
@@ -294,6 +294,14 @@
       "description": "Home first view: the painting whole on a Sage Mist matte in a fixed-height frame, with a cartela.",
       "html": "<figure class=\"ds-hero\"><div class=\"ds-hero-frame\"></div><figcaption class=\"ds-hero-cap\"><a href=\"#\" class=\"ds-hero-title\">Cudillero</a><span class=\"ds-hero-meta\">Técnica mixta sobre lienzo, 81×60 cm</span></figcaption></figure>",
       "css": ".ds-hero { width: 100%; max-width: 640px; margin: 0; text-align: center; } .ds-hero-frame { height: 320px; background: #e5f0e0; border: 1px solid var(--color-border, #cfe0c8); border-radius: 16px; } .ds-hero-cap { display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 0.25rem 1rem; margin-top: 1rem; } .ds-hero-title { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 1.15rem; color: var(--color-text, #1c2b1c); text-decoration: none; } .ds-hero-meta { font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; color: var(--color-text-light, #5b6b52); }"
+    },
+    {
+      "name": "Catalogue Wall",
+      "kind": "custom",
+      "refersTo": "card-obra",
+      "description": "The /obra catalogue: justified rows of paintings in their own proportion, no card, cartela underneath.",
+      "html": "<section class=\"ds-room\"><h2 class=\"ds-room-title\">Estructuras</h2><div class=\"ds-wall\"><article class=\"ds-work\" style=\"--ratio:0.71\"><div class=\"ds-work-img\"></div><h3 class=\"ds-work-title\">Cudillero</h3><p class=\"ds-work-meta\">Técnica mixta sobre lienzo, 81×60 cm</p></article><article class=\"ds-work\" style=\"--ratio:1.34\"><div class=\"ds-work-img\"></div><h3 class=\"ds-work-title\">Pensamientos</h3><p class=\"ds-work-meta\">Técnica mixta sobre lienzo, 46×61 cm</p></article></div></section>",
+      "css": ".ds-room-title { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 2.5rem; font-weight: 400; text-align: center; margin: 0 0 2rem; color: var(--color-text, #1c2b1c); } .ds-wall { --h: 280px; display: flex; flex-wrap: wrap; align-items: flex-start; gap: 2.5rem 1.5rem; } .ds-wall::after { content: ''; flex-grow: 1000; } .ds-work { flex-grow: var(--ratio); flex-basis: calc(var(--ratio) * var(--h)); max-width: calc(var(--ratio) * 440px); min-width: 0; } .ds-work-img { aspect-ratio: var(--ratio); background: #e5f0e0; } .ds-work-title { font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif); font-size: 1.1rem; font-weight: 400; line-height: 1.3; margin: 0.6rem 0 0; color: var(--color-text, #1c2b1c); } .ds-work-meta { font-family: var(--font-body, Inter, sans-serif); font-weight: 300; font-size: 0.8rem; color: var(--color-text-light, #5b6b52); margin: 0; }"
     }
   ],
   "narrative": {
